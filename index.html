@@ -192,6 +192,11 @@
     color: var(--lilac); border: 1px solid rgba(180, 92, 255, 0.4); background: rgba(122, 45, 255, 0.12);
   }
   .app .btn { margin-left: auto; }
+  .app .btn + .btn { margin-left: 0; }
+  .howto { grid-column: 1 / -1; color: var(--ink-soft); font-size: .95rem; }
+  .howto summary { cursor: pointer; color: var(--lilac); font-weight: 600; min-height: 32px; display: flex; align-items: center; }
+  .howto ol { margin: .4rem 0 0; padding-left: 1.3rem; }
+  .howto li { margin: .2rem 0; }
   .app.soon { opacity: .72; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 30px rgba(0,0,0,0.3); }
   .app.soon .tile { box-shadow: inset 0 1px 0 rgba(255,255,255,0.2); border-color: rgba(214,190,255,0.25); filter: grayscale(.5); }
   .soon-tag { margin-left: auto; font-weight: 600; color: var(--ink-soft); font-size: .95rem; }
@@ -306,6 +311,7 @@
      YOUR APPS — to add a new one, copy a block and change it.
      status: "live" shows a Play button, "soon" shows Coming soon.
      category: "game" or "helpful".
+     apk: (optional) link to the Android app. Shows an "Android app" button.
      ========================================================= */
   const APPS = [
     {
@@ -332,6 +338,7 @@
       category: "game",
       status: "live",
       link: "https://thespectrumtechengine.com/Gravity-Trampoline-smiles/",
+      apk: "https://github.com/SpectrumTechEngine/Gravity-Trampoline-smiles/releases/latest/download/gravity-trampoline-smiles.apk",
       description: "Draw trampolines to bounce the ball past the frowny faces and into the portal. Made for kids.",
       chips: ["Draw & bounce", "Kids"]
     },
@@ -391,6 +398,16 @@
       chips: ["7-day organiser", "Dose alerts", "Read aloud"]
     },
     {
+      name: "Remind Me There",
+      emoji: "📍",
+      category: "helpful",
+      status: "live",
+      link: "https://thespectrumtechengine.com/remindmethere/",
+      apk: "https://github.com/SpectrumTechEngine/remindmethere/releases/latest/download/remind-me-there.apk",
+      description: "Reminders that go off when you arrive at or leave a place. In the Android app, they can also pop up when someone rings, so you remember to mention the mole when the doctor calls.",
+      chips: ["Arrive & leave", "When they ring"]
+    },
+    {
       name: "AllTheAldi",
       emoji: "🛍️",
       category: "helpful",
@@ -421,6 +438,12 @@
         const foot = el('div', 'foot');
         (app.chips || []).forEach(c => foot.append(el('span', 'chip', c)));
         if (app.status === 'live') {
+          if (app.apk) {
+            const d = el('a', 'btn btn-glass', 'Android app');
+            d.href = app.apk;
+            d.setAttribute('aria-label', 'Download the Android app for ' + app.name);
+            foot.append(d);
+          }
           const a = el('a', 'btn', app.category === 'helpful' ? 'Open' : 'Play');
           a.setAttribute('aria-label', (app.category === 'helpful' ? 'Open ' : 'Play ') + app.name);
           a.href = app.link;
@@ -429,6 +452,18 @@
           foot.append(el('span', 'soon-tag', 'Coming soon'));
         }
         card.append(tile, body, foot);
+        if (app.apk && app.status === 'live') {
+          const how = el('details', 'howto');
+          how.append(el('summary', '', 'How to install the Android app'));
+          const ol = el('ol');
+          ['Tap Android app. The file downloads to your phone.',
+           'Open it from your notifications or your Downloads folder.',
+           'If your phone asks, allow your browser to install apps, then tap Install.',
+           'To update later, download it again. It installs over the old one and keeps your data.'
+          ].forEach(s => ol.append(el('li', '', s)));
+          how.append(ol);
+          card.append(how);
+        }
         list.append(card);
       });
   });
