@@ -1,0 +1,2 @@
+# Let GitHub Pages publish the .well-known folder (Android app verification).
+include: [".well-known"]
