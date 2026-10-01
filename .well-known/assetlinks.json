@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thespectrumtechengine.prescriptionmeditation",
+      "sha256_cert_fingerprints": ["E1:E6:7C:EA:CA:60:A5:7D:99:1B:BB:4D:FD:5E:77:7D:12:5D:1F:D0:D4:2A:84:62:2F:08:BF:F6:22:21:3F:D5"]
+    }
+  }
+]
